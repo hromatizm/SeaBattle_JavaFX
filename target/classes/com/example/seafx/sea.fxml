@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.GridPane?>
+<?import Cell.SeaButton?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.Button?>
+<VBox id="root"
+      alignment="CENTER"
+      spacing="10"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.seafx.SeaController">
+    <padding>
+        <javafx.geometry.Insets top="25" right="25" bottom="25" left="25"/>
+    </padding>
+
+    <Label fx:id="boatInstallerLabel" text="Расставьте корабли"
+          style="-fx-font: NORMAL 20 Tahoma;
+          -fx-text-alignment: right;"
+          GridPane.rowIndex="0" GridPane.columnIndex="0" GridPane.fillWidth="true"
+    />
+
+    <HBox GridPane.rowIndex="1" GridPane.columnIndex="0" alignment="TOP_CENTER">
+        <fx:define>
+            <ToggleGroup fx:id="group1"/>
+        </fx:define>
+        <ToggleButton text="Вертикальный" onAction="#verticalClick" toggleGroup="$group1"/>
+        <ToggleButton text="Горизoнтальный" onAction="#horizontClick" toggleGroup="$group1"/>
+
+    </HBox>
+<Label fx:id="myLabel" text=""
+          GridPane.rowIndex="2" GridPane.columnIndex="0"
+          GridPane.fillWidth="true"
+          maxHeight="30"
+          />
+    <GridPane id="fieldA"
+
+              alignment="CENTER"
+              hgap="1"
+              vgap="1"
+              GridPane.rowIndex="3" GridPane.columnIndex="0">
+
+        <Label text="А"
+               minWidth="30"
+               alignment="CENTER"
+               GridPane.rowIndex="0" GridPane.columnIndex="1"
+        />
+        <Label text="Б"
+               minWidth="30"
+               alignment="CENTER"
+               GridPane.rowIndex="0" GridPane.columnIndex="2"
+        />
+        <Label text="В"
+               minWidth="30"
+               alignment="CENTER"
+               GridPane.rowIndex="0" GridPane.columnIndex="3"
+        />
+        <Label text="Г"
+               minWidth="30"
+               alignment="CENTER"
+               GridPane.rowIndex="0" GridPane.columnIndex="4"
+        />
+        <Label text="Д"
+               minWidth="30"
+               alignment="CENTER"
+               GridPane.rowIndex="0" GridPane.columnIndex="5"
+        />
+        <Label text="Е"
+               minWidth="30"
+               alignment="CENTER"
+               GridPane.rowIndex="0" GridPane.columnIndex="6"
+        />
+        <Label text="Ж"
+               minWidth="30"
+               alignment="CENTER"
+               GridPane.rowIndex="0" GridPane.columnIndex="7"
+        />
+        <Label text="З"
+               minWidth="30"
+               alignment="CENTER"
+               GridPane.rowIndex="0" GridPane.columnIndex="8"
+        />
+        <Label text="И"
+               minWidth="30"
+               alignment="CENTER"
+               GridPane.rowIndex="0" GridPane.columnIndex="9"
+        />
+        <Label text="К"
+               minWidth="30"
+               alignment="CENTER"
+               GridPane.rowIndex="0" GridPane.columnIndex="10"
+        />
+        <Label text="1"
+               GridPane.rowIndex="1" GridPane.columnIndex="0"
+        />
+        <Label text="2"
+               GridPane.rowIndex="2" GridPane.columnIndex="0"
+        />
+        <Label text="3"
+               GridPane.rowIndex="3" GridPane.columnIndex="0"
+        />
+        <Label text="4"
+               GridPane.rowIndex="4" GridPane.columnIndex="0"
+        />
+        <Label text="5"
+               GridPane.rowIndex="5" GridPane.columnIndex="0"
+        />
+        <Label text="6"
+               GridPane.rowIndex="6" GridPane.columnIndex="0"
+        />
+        <Label text="7"
+               GridPane.rowIndex="7" GridPane.columnIndex="0"
+        />
+        <Label text="8"
+               GridPane.rowIndex="8" GridPane.columnIndex="0"
+        />
+        <Label text="9"
+               GridPane.rowIndex="9" GridPane.columnIndex="0"
+        />
+        <Label text="10"
+               GridPane.rowIndex="10" GridPane.columnIndex="0"
+        />
+
+
+        <SeaButton
+                GridPane.rowIndex="1" GridPane.columnIndex="1"
+                onAction="#seaClick" fx:id="button11"
+        />
+
+        <SeaButton
+                GridPane.rowIndex="1" GridPane.columnIndex="2"
+                onAction="#seaClick" fx:id="button12"
+        />
+        <SeaButton
+                GridPane.rowIndex="1" GridPane.columnIndex="3"
+                onAction="#seaClick" fx:id="button13"
+        />
+        <SeaButton
+                GridPane.rowIndex="1" GridPane.columnIndex="4"
+                onAction="#seaClick" fx:id="button14"
+        />
+        <SeaButton
+                GridPane.rowIndex="1" GridPane.columnIndex="5"
+                onAction="#seaClick" fx:id="button15"
+        />
+        <SeaButton
+                GridPane.rowIndex="1" GridPane.columnIndex="6"
+                onAction="#seaClick" fx:id="button16"
+        />
+        <SeaButton
+                GridPane.rowIndex="1" GridPane.columnIndex="7"
+                onAction="#seaClick" fx:id="button17"
+        />
+        <SeaButton
+                GridPane.rowIndex="1" GridPane.columnIndex="8"
+                onAction="#seaClick" fx:id="button18"
+        />
+        <SeaButton
+                GridPane.rowIndex="1" GridPane.columnIndex="9"
+                onAction="#seaClick" fx:id="button19"
+        />
+        <SeaButton
+                GridPane.rowIndex="1" GridPane.columnIndex="10"
+                onAction="#seaClick" fx:id="button110"
+        />
+        <SeaButton
+                GridPane.rowIndex="2" GridPane.columnIndex="1"
+                onAction="#seaClick" fx:id="button21"
+        />
+        <SeaButton
+                GridPane.rowIndex="2" GridPane.columnIndex="2"
+                onAction="#seaClick" fx:id="button22"
+        />
+        <SeaButton
+                GridPane.rowIndex="2" GridPane.columnIndex="3"
+                onAction="#seaClick" fx:id="button23"
+        />
+        <SeaButton
+                GridPane.rowIndex="2" GridPane.columnIndex="4"
+                onAction="#seaClick" fx:id="button24"
+        />
+        <SeaButton
+                GridPane.rowIndex="2" GridPane.columnIndex="5"
+                onAction="#seaClick" fx:id="button25"
+        />
+        <SeaButton
+                GridPane.rowIndex="2" GridPane.columnIndex="6"
+                onAction="#seaClick" fx:id="button26"
+        />
+        <SeaButton
+                GridPane.rowIndex="2" GridPane.columnIndex="7"
+                onAction="#seaClick" fx:id="button27"
+        />
+        <SeaButton
+                GridPane.rowIndex="2" GridPane.columnIndex="8"
+                onAction="#seaClick" fx:id="button28"
+        />
+        <SeaButton
+                GridPane.rowIndex="2" GridPane.columnIndex="9"
+                onAction="#seaClick" fx:id="button29"
+        />
+        <SeaButton
+                GridPane.rowIndex="2" GridPane.columnIndex="10"
+                onAction="#seaClick" fx:id="button210"
+        />
+        <SeaButton
+                GridPane.rowIndex="3" GridPane.columnIndex="1"
+                onAction="#seaClick" fx:id="button31"
+        />
+        <SeaButton
+                GridPane.rowIndex="3" GridPane.columnIndex="2"
+                onAction="#seaClick" fx:id="button32"
+        />
+        <SeaButton
+                GridPane.rowIndex="3" GridPane.columnIndex="3"
+                onAction="#seaClick" fx:id="button33"
+        />
+        <SeaButton
+                GridPane.rowIndex="3" GridPane.columnIndex="4"
+                onAction="#seaClick" fx:id="button34"
+        />
+        <SeaButton
+                GridPane.rowIndex="3" GridPane.columnIndex="5"
+                onAction="#seaClick" fx:id="button35"
+        />
+        <SeaButton
+                GridPane.rowIndex="3" GridPane.columnIndex="6"
+                onAction="#seaClick" fx:id="button36"
+        />
+        <SeaButton
+                GridPane.rowIndex="3" GridPane.columnIndex="7"
+                onAction="#seaClick" fx:id="button37"
+        />
+        <SeaButton
+                GridPane.rowIndex="3" GridPane.columnIndex="8"
+                onAction="#seaClick" fx:id="button38"
+        />
+        <SeaButton
+                GridPane.rowIndex="3" GridPane.columnIndex="9"
+                onAction="#seaClick" fx:id="button39"
+        />
+        <SeaButton
+                GridPane.rowIndex="3" GridPane.columnIndex="10"
+                onAction="#seaClick" fx:id="button310"
+        />
+        <SeaButton
+                GridPane.rowIndex="4" GridPane.columnIndex="1"
+                onAction="#seaClick" fx:id="button41"
+        />
+        <SeaButton
+                GridPane.rowIndex="4" GridPane.columnIndex="2"
+                onAction="#seaClick" fx:id="button42"
+        />
+        <SeaButton
+                GridPane.rowIndex="4" GridPane.columnIndex="3"
+                onAction="#seaClick" fx:id="button43"
+        />
+        <SeaButton
+                GridPane.rowIndex="4" GridPane.columnIndex="4"
+                onAction="#seaClick" fx:id="button44"
+        />
+        <SeaButton
+                GridPane.rowIndex="4" GridPane.columnIndex="5"
+                onAction="#seaClick" fx:id="button45"
+        />
+        <SeaButton
+                GridPane.rowIndex="4" GridPane.columnIndex="6"
+                onAction="#seaClick" fx:id="button46"
+        />
+        <SeaButton
+                GridPane.rowIndex="4" GridPane.columnIndex="7"
+                onAction="#seaClick" fx:id="button47"
+        />
+        <SeaButton
+                GridPane.rowIndex="4" GridPane.columnIndex="8"
+                onAction="#seaClick" fx:id="button48"
+        />
+        <SeaButton
+                GridPane.rowIndex="4" GridPane.columnIndex="9"
+                onAction="#seaClick" fx:id="button49"
+        />
+        <SeaButton
+                GridPane.rowIndex="4" GridPane.columnIndex="10"
+                onAction="#seaClick" fx:id="button410"
+        />
+        <SeaButton
+                GridPane.rowIndex="5" GridPane.columnIndex="1"
+                onAction="#seaClick" fx:id="button51"
+        />
+        <SeaButton
+                GridPane.rowIndex="5" GridPane.columnIndex="2"
+                onAction="#seaClick" fx:id="button52"
+        />
+        <SeaButton
+                GridPane.rowIndex="5" GridPane.columnIndex="3"
+                onAction="#seaClick" fx:id="button53"
+        />
+        <SeaButton
+                GridPane.rowIndex="5" GridPane.columnIndex="4"
+                onAction="#seaClick" fx:id="button54"
+        />
+        <SeaButton
+                GridPane.rowIndex="5" GridPane.columnIndex="5"
+                onAction="#seaClick" fx:id="button55"
+        />
+        <SeaButton
+                GridPane.rowIndex="5" GridPane.columnIndex="6"
+                onAction="#seaClick" fx:id="button56"
+        />
+        <SeaButton
+                GridPane.rowIndex="5" GridPane.columnIndex="7"
+                onAction="#seaClick" fx:id="button57"
+        />
+        <SeaButton
+                GridPane.rowIndex="5" GridPane.columnIndex="8"
+                onAction="#seaClick" fx:id="button58"
+        />
+        <SeaButton
+                GridPane.rowIndex="5" GridPane.columnIndex="9"
+                onAction="#seaClick" fx:id="button59"
+        />
+        <SeaButton
+                GridPane.rowIndex="5" GridPane.columnIndex="10"
+                onAction="#seaClick" fx:id="button510"
+        />
+        <SeaButton
+                GridPane.rowIndex="6" GridPane.columnIndex="1"
+                onAction="#seaClick" fx:id="button61"
+        />
+        <SeaButton
+                GridPane.rowIndex="6" GridPane.columnIndex="2"
+                onAction="#seaClick" fx:id="button62"
+        />
+        <SeaButton
+                GridPane.rowIndex="6" GridPane.columnIndex="3"
+                onAction="#seaClick" fx:id="button63"
+        />
+        <SeaButton
+                GridPane.rowIndex="6" GridPane.columnIndex="4"
+                onAction="#seaClick" fx:id="button64"
+        />
+        <SeaButton
+                GridPane.rowIndex="6" GridPane.columnIndex="5"
+                onAction="#seaClick" fx:id="button65"
+        />
+        <SeaButton
+                GridPane.rowIndex="6" GridPane.columnIndex="6"
+                onAction="#seaClick" fx:id="button66"
+        />
+        <SeaButton
+                GridPane.rowIndex="6" GridPane.columnIndex="7"
+                onAction="#seaClick" fx:id="button67"
+        />
+        <SeaButton
+                GridPane.rowIndex="6" GridPane.columnIndex="8"
+                onAction="#seaClick" fx:id="button68"
+        />
+        <SeaButton
+                GridPane.rowIndex="6" GridPane.columnIndex="9"
+                onAction="#seaClick" fx:id="button69"
+        />
+        <SeaButton
+                GridPane.rowIndex="6" GridPane.columnIndex="10"
+                onAction="#seaClick" fx:id="button610"
+        />
+        <SeaButton
+                GridPane.rowIndex="7" GridPane.columnIndex="1"
+                onAction="#seaClick" fx:id="button71"
+        />
+        <SeaButton
+                GridPane.rowIndex="7" GridPane.columnIndex="2"
+                onAction="#seaClick" fx:id="button72"
+        />
+        <SeaButton
+                GridPane.rowIndex="7" GridPane.columnIndex="3"
+                onAction="#seaClick" fx:id="button73"
+        />
+        <SeaButton
+                GridPane.rowIndex="7" GridPane.columnIndex="4"
+                onAction="#seaClick" fx:id="button74"
+        />
+        <SeaButton
+                GridPane.rowIndex="7" GridPane.columnIndex="5"
+                onAction="#seaClick" fx:id="button75"
+        />
+        <SeaButton
+                GridPane.rowIndex="7" GridPane.columnIndex="6"
+                onAction="#seaClick" fx:id="button76"
+        />
+        <SeaButton
+                GridPane.rowIndex="7" GridPane.columnIndex="7"
+                onAction="#seaClick" fx:id="button77"
+        />
+        <SeaButton
+                GridPane.rowIndex="7" GridPane.columnIndex="8"
+                onAction="#seaClick" fx:id="button78"
+        />
+        <SeaButton
+                GridPane.rowIndex="7" GridPane.columnIndex="9"
+                onAction="#seaClick" fx:id="button79"
+        />
+        <SeaButton
+                GridPane.rowIndex="7" GridPane.columnIndex="10"
+                onAction="#seaClick" fx:id="button710"
+        />
+        <SeaButton
+                GridPane.rowIndex="8" GridPane.columnIndex="1"
+                onAction="#seaClick" fx:id="button81"
+        />
+        <SeaButton
+                GridPane.rowIndex="8" GridPane.columnIndex="2"
+                onAction="#seaClick" fx:id="button82"
+        />
+        <SeaButton
+                GridPane.rowIndex="8" GridPane.columnIndex="3"
+                onAction="#seaClick" onMouseDragOver="#seaMouseOver" fx:id="button83"
+        />
+        <SeaButton
+                GridPane.rowIndex="8" GridPane.columnIndex="4"
+                onAction="#seaClick" fx:id="button84"
+        />
+        <SeaButton
+                GridPane.rowIndex="8" GridPane.columnIndex="5"
+                onAction="#seaClick" fx:id="button85"
+        />
+        <SeaButton
+                GridPane.rowIndex="8" GridPane.columnIndex="6"
+                onAction="#seaClick" fx:id="button86"
+        />
+        <SeaButton
+                GridPane.rowIndex="8" GridPane.columnIndex="7"
+                onAction="#seaClick" fx:id="button87"
+        />
+        <SeaButton
+                GridPane.rowIndex="8" GridPane.columnIndex="8"
+                onAction="#seaClick" fx:id="button88"
+        />
+        <SeaButton
+                GridPane.rowIndex="8" GridPane.columnIndex="9"
+                onAction="#seaClick" fx:id="button89"
+        />
+        <SeaButton
+                GridPane.rowIndex="8" GridPane.columnIndex="10"
+                onAction="#seaClick" fx:id="button810"
+        />
+        <SeaButton
+                GridPane.rowIndex="9" GridPane.columnIndex="1"
+                onAction="#seaClick" fx:id="button91"
+        />
+        <SeaButton
+                GridPane.rowIndex="9" GridPane.columnIndex="2"
+                onAction="#seaClick" fx:id="button92"
+        />
+        <SeaButton
+                GridPane.rowIndex="9" GridPane.columnIndex="3"
+                onAction="#seaClick" fx:id="button93"
+        />
+        <SeaButton
+                GridPane.rowIndex="9" GridPane.columnIndex="4"
+                onAction="#seaClick" fx:id="button94"
+        />
+        <SeaButton
+                GridPane.rowIndex="9" GridPane.columnIndex="5"
+                onAction="#seaClick" fx:id="button95"
+        />
+        <SeaButton
+                GridPane.rowIndex="9" GridPane.columnIndex="6"
+                onAction="#seaClick" fx:id="button96"
+        />
+        <SeaButton
+                GridPane.rowIndex="9" GridPane.columnIndex="7"
+                onAction="#seaClick" fx:id="button97"
+        />
+        <SeaButton
+                GridPane.rowIndex="9" GridPane.columnIndex="8"
+                onAction="#seaClick" fx:id="button98"
+        />
+        <SeaButton
+                GridPane.rowIndex="9" GridPane.columnIndex="9"
+                onAction="#seaClick" fx:id="button99"
+        />
+        <SeaButton
+                GridPane.rowIndex="9" GridPane.columnIndex="10"
+                onAction="#seaClick" fx:id="button910"
+        />
+        <SeaButton
+                GridPane.rowIndex="10" GridPane.columnIndex="1"
+                onAction="#seaClick" fx:id="button101"
+        />
+        <SeaButton
+                GridPane.rowIndex="10" GridPane.columnIndex="2"
+                onAction="#seaClick" fx:id="button102"
+        />
+        <SeaButton
+                GridPane.rowIndex="10" GridPane.columnIndex="3"
+                onAction="#seaClick" fx:id="button103"
+        />
+        <SeaButton
+                GridPane.rowIndex="10" GridPane.columnIndex="4"
+                onAction="#seaClick" fx:id="button104"
+        />
+        <SeaButton
+                GridPane.rowIndex="10" GridPane.columnIndex="5"
+                onAction="#seaClick" fx:id="button105"
+        />
+        <SeaButton
+                GridPane.rowIndex="10" GridPane.columnIndex="6"
+                onAction="#seaClick" fx:id="button106"
+        />
+        <SeaButton
+                GridPane.rowIndex="10" GridPane.columnIndex="7"
+                onAction="#seaClick" fx:id="button107"
+        />
+        <SeaButton
+                GridPane.rowIndex="10" GridPane.columnIndex="8"
+                onAction="#seaClick" fx:id="button108"
+        />
+        <SeaButton
+                GridPane.rowIndex="10" GridPane.columnIndex="9"
+                onAction="#seaClick" fx:id="button109"
+        />
+        <SeaButton
+                GridPane.rowIndex="10" GridPane.columnIndex="10"
+                onAction="#seaClick" fx:id="button1010"
+        />
+    </GridPane>
+</VBox>

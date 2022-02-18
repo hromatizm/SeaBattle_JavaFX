@@ -17,7 +17,6 @@ class GetCoord {
         var newCoord: Coordinate? by Delegates.observable(null) { _, _, new ->
             if (new?.letter != null && new.number != null) {
                 gotBoatHuman = true
-                println("gotBoatHuman = $gotBoatHuman")
             }
         }
     }
@@ -26,11 +25,11 @@ class GetCoord {
     suspend fun boatHuman(id: Int): Pair<Coordinate, Boolean> {
         println("boatHuman")
         var coord: Coordinate?
-        HumanBoatCoordGetter.boatTemp = Boat(id, Coordinate(1,1), HumanBoatCoordGetter.isVertical)
+        HumanBoatCoordGetter.boatTemp = Boat(id, Coordinate(1, 1), HumanBoatCoordGetter.isVertical)
 
         gotBoatHuman = false
         while (!gotBoatHuman) {
-            delay(100)
+            delay(50)
             println("getFlag = $gotBoatHuman")
         }
         coord = Coordinate.copy(newCoord!!)
@@ -129,7 +128,6 @@ class GetCoord {
             // Далее - проверка на такой случай: если все корабли не смогли расставиться, то они перераставляются еще раз
             do {
                 techField.boatList.clear()
-                techField.uiInstaller.clear()
                 for (id in longestBoatsIdList) {
                     val testBoatPair =
                         installer.install(id, null) // Установщик возвращает пару: корабль и булеан (результат проверки)

@@ -6,16 +6,31 @@ import fields.TechField
 import javafx.scene.control.Label
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import turns.Turn
+import turns.TurnSequence
 
-class Model {
+class Model (val humanLabel: Label, val robotLabel: Label){
 
-    val techField = TechField()
-    val boatFactory = BoatFactory(techField)
-    val installer = BoatInstaller(boatFactory, true)
+    val humanTechField = TechField()
+    val humanBoatFactory = BoatFactory(humanTechField)
+    val humanInstaller = BoatInstaller(humanBoatFactory, true)
+    val robotTechField = TechField()
+    val robotBoatFactory = BoatFactory(robotTechField)
+    val robotInstaller = BoatInstaller(robotBoatFactory, false)
 
-    fun installBoats(label: Label) {
+
+    val robotTurns = Turn(humanTechField, false, humanLabel)
+    val turnSequence = TurnSequence(listOf(robotTurns))
+
+
+    fun start() {
+        humanTechField.buttonMap = SeaController.humanButtonMap
+        robotTechField.buttonMap = SeaController.robotButtonMap
         GlobalScope.launch {
-            installer.installAllHuman(listOf(41, 31, 32, 21, 22, 23, 11, 12, 13, 14), label)
+            humanInstaller.installAllHuman(listOf(41, 31, 32, 21, 22, 23, 11, 12, 13, 14), humanLabel)
+            robotInstaller.installAllRobot(listOf(41, 31, 32, 21, 22, 23, 11, 12, 13, 14))
+            turnSequence.start()
         }
+
     }
 }

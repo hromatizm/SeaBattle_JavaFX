@@ -4,12 +4,7 @@ import com.example.seafx.SeaController
 import coordinates.GetCoord
 import fields.TechField4Algorithm
 import javafx.fxml.FXML
-import javafx.geometry.Insets
 import javafx.scene.control.Label
-import javafx.scene.layout.Background
-import javafx.scene.layout.BackgroundFill
-import javafx.scene.layout.CornerRadii
-import javafx.scene.paint.Color
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
@@ -28,9 +23,7 @@ class BoatInstaller(private val factory: BoatFactory, private val isHuman: Boole
             size < 4 -> "$num-й "
             else -> ""
         }
-
         boatInstallLabel.text = ("Поставим $boatNumber $size-палубный...")
-        println("printWelcome")
     }
 
     fun printError() {
@@ -39,7 +32,6 @@ class BoatInstaller(private val factory: BoatFactory, private val isHuman: Boole
 
     // Установка одного корабля. Принимает в качесвте параметра только id корабля
     suspend fun install(id: Int, label: Label?): Pair<Boolean, Boat> {
-        println("install")
         val size = id / 10 // Размер корабля - первая цифра id
         val num = id - size * 10 // Номер корабля данного размера - вторая цифра id
         var boat: Boat
@@ -51,12 +43,9 @@ class BoatInstaller(private val factory: BoatFactory, private val isHuman: Boole
                 MainScope().launch {
                     printWelcome(size, num, label)
                 }
-//                withContext(Dispatchers.Main) {
-//
-//                }
+
             } // Сообщение с приглашением поставить корабль
             val readPair = if (isHuman) GetCoord().boatHuman(id) else GetCoord().boatRobot() // Считываем пару
-            println("Coord is read")
             val coordBegin = readPair.first // Первый элемент пары - начальная координата корабля
             val isVertical = readPair.second // Второй элемент пары - признак вертикальности
             boat = factory.makeBoat(id, coordBegin, isVertical) // Через фабрику делаем корабль
@@ -74,9 +63,22 @@ class BoatInstaller(private val factory: BoatFactory, private val isHuman: Boole
             update() // Обновляем ТехПоле
             aliveBoatCounter++ // Инкремент счетчика кораблей
         }
-        for (coord in boat.coordinates) {
-            SeaController.seaButtonMap.getValue(coord!!.id).background =
-                Background(BackgroundFill(Color.BROWN, CornerRadii.EMPTY, Insets.EMPTY))
+        if (isHuman) {
+            for (boat in techField.boatList) // Перебираем коллекцию кораблей из ТехПоля
+                for (coord in boat.value.coordinates) {
+                    SeaController.humanButtonMap.getValue(coord!!.id).style =
+                        "-fx-padding: 0.0 3.0 0.0 0.0;" +
+                                "-fx-text-alignment: center;" +
+                                "-fx-border-color: darkblue;" +
+                                "-fx-background-color: radial-gradient(focus-distance 0% , center 50% 50% , radius 100% , skyblue, blue);" +
+                                "-fx-background-radius: 6;" +
+                                "-fx-border-radius: 6;" +
+                                "-fx-border-width: 1px;" +
+                                "-fx-font-size: 1.7em;" +
+                                "-fx-pref-width: 29px;" +
+                                "-fx-pref-height: 29px;"
+
+                }
         }
 
         return true to boat
@@ -84,7 +86,6 @@ class BoatInstaller(private val factory: BoatFactory, private val isHuman: Boole
 
     // Принимает список id кораблей для установки:
     suspend fun installAllHuman(boatsIdToInstall: Collection<Int>, label: Label) { // Установка всех нужных кораблей:
-        println("installAll")
         for (id in boatsIdToInstall) {
             install(id, label)
         }
@@ -99,7 +100,7 @@ class BoatInstaller(private val factory: BoatFactory, private val isHuman: Boole
     suspend fun installAllRobot(boatsIdToInstall: Collection<Int>) { // Установка всех нужных кораблей:
         for (id in boatsIdToInstall) {
             install(id, null)
-            techField.uiInstaller.print() // Выводим UI поле в консоль
+
         }
 
     }

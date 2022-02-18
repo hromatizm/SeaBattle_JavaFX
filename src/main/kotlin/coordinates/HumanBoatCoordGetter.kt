@@ -1,7 +1,7 @@
 package coordinates
 
 import Cell.*
-import Cell.SeaButton
+import Cell.HumanButton
 import boats.Boat
 import com.example.seafx.SeaController
 import javafx.event.EventHandler
@@ -18,8 +18,8 @@ class HumanBoatCoordGetter() : SeaController() {
 
     init {
         val handlerMouseEnter = EventHandler<MouseEvent> { event ->
-            if (event?.source is SeaButton) {
-                val button = event.source as SeaButton
+            if (event?.source is HumanButton) {
+                val button = event.source as HumanButton
                 boatTemp.coordBegin = button.cell.coord
                 boatTemp.coordinates[0] = boatTemp.coordBegin
                 // Если размер корабля больше чем 1, то добавляем в коллекцию остальные координаты:
@@ -48,7 +48,7 @@ class HumanBoatCoordGetter() : SeaController() {
             }
         }
         val handlerMouseExit = EventHandler<MouseEvent> { event ->
-            if (event?.source is SeaButton) {
+            if (event?.source is HumanButton) {
 //                val button = event.source as SeaButton
                 for (cell in Cell.cellMap.values) {
                     for (coord in boatTemp.coordinates)
@@ -58,8 +58,8 @@ class HumanBoatCoordGetter() : SeaController() {
             }
         }
         val handlerMouseClick = EventHandler<MouseEvent> { event ->
-            if (event?.source is SeaButton) {
-                val button = event.source as SeaButton
+            if (event?.source is HumanButton) {
+                val button = event.source as HumanButton
                 if (boatTemp.coordEnd.letter <= 10 && boatTemp.coordEnd.number <= 10)
                     GetCoord.newCoord = button.cell.coord
                 for (cell in Cell.cellMap.values) {

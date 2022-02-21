@@ -20,25 +20,25 @@ class Boat(var id: Int, var coordBegin: Coordinate, val isVertical: Boolean) {
     var coordEnd: Coordinate
 
     // Коллекция всех координат корабля:
-    val coordinates: Array<Coordinate?> = arrayOfNulls(size)
+    val coordinates: MutableList<Coordinate> = arrayListOf()
 
     // Рамка вокруг корабля (туда не могут быть поставлены другие корабли, и там "мимо" после убийства корабля):
-    val frame: Array<Coordinate?> = arrayOfNulls(size * 2 + 6)
+    val frame: MutableList<Coordinate> = arrayListOf()
 
     init {
-        coordinates[0] = coordBegin
+        coordinates.add(coordBegin)
         // Если размер корабля больше чем 1, то добавляем в коллекцию остальные координаты:
         if (size > 1) {
             for (i in 1 until size) {
                 val last = coordinates[i - 1] // Берем последнюю координату из коллекции
                 val new = when { // На ее основе создаем новую
-                    isVertical -> Coordinate(last!!.letter, last.number + 1)
-                    else -> Coordinate(last!!.letter + 1, last.number)
+                    isVertical -> Coordinate(last.letter, last.number + 1)
+                    else -> Coordinate(last.letter + 1, last.number)
                 }
-                coordinates[i] = (new)
+                coordinates.add(new)
             }
         }
-        coordEnd = coordinates[size - 1]!!
+        coordEnd = coordinates.last()
     }
 
     fun liveMinus() {
@@ -48,7 +48,7 @@ class Boat(var id: Int, var coordBegin: Coordinate, val isVertical: Boolean) {
     // Вывод координат в консоль. Для отладки.
     fun print() {
         for (coord in this.coordinates) {
-            val l: Int = coord!!.letter
+            val l: Int = coord.letter
             val n: Int = coord.number
             println("$l$n")
         }

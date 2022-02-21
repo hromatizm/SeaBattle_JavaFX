@@ -1,5 +1,6 @@
 package turns
 
+import com.example.seafx.View
 import coordinates.GetCoord
 import fields.TechField
 import javafx.scene.control.Label
@@ -14,6 +15,7 @@ class Turn(var techField: TechField, var isHuman: Boolean, var label: Label) {
         counter++
         MainScope().launch {
             label.text = "Ход № $counter"
+            if (isHuman) View.topLabel.text = "Ваш ход"
         }
         var isScored = false // Признак, что "попал" в корабль
         val turnCoord =
@@ -32,7 +34,7 @@ class Turn(var techField: TechField, var isHuman: Boolean, var label: Label) {
                         label.text = "Ход № $counter - Убит"
                     }
                     for (coord in boat.frame) // добавляем рамку корабля в коллекцию с полями "мимо"
-                        techField.failList.add(coord!!)
+                        techField.failList.add(coord)
                     techField.aliveBoatCounter-- // Декремент счетчика живых кораблей
                     if (techField.aliveBoatCounter == 0) { // Если живых кораблей не осталось
                         with(techField) {
@@ -42,7 +44,7 @@ class Turn(var techField: TechField, var isHuman: Boolean, var label: Label) {
                             delay(1000)
                         }
                         MainScope().launch {
-                            label.text = "GAME OVER  Сделано ходов: $counter"
+                            View.topLabel.text = "GAME OVER  Сделано ходов: $counter"
                         }
 
                         return false to counter
@@ -50,6 +52,7 @@ class Turn(var techField: TechField, var isHuman: Boolean, var label: Label) {
                 } else // Если попал, но остались жизни
                     MainScope().launch {
                         label.text = "Ход № $counter - Ранен"
+
                     }
             }
             target <= 0 -> { // Если поле помечено как "мимо" или как сбитый корабль
@@ -60,6 +63,7 @@ class Turn(var techField: TechField, var isHuman: Boolean, var label: Label) {
             else -> {
                 MainScope().launch {
                     label.text = "Ход № $counter - Мимо"
+                    if (isHuman)  View.topLabel.text = ""
                 }
                 techField.failList.add(turnCoord)
             }
@@ -68,9 +72,8 @@ class Turn(var techField: TechField, var isHuman: Boolean, var label: Label) {
         with(techField) {
             update()
             lastTurnCoord = turnCoord
-            for (ui in TechField.uiScene) {
                 uiUpdate()
-            }
+
             delay(1000)
         }
         // Если "попал" и остались живые корабли

@@ -1,11 +1,14 @@
 package coordinates
 
 
+import Cell.RobotButton
 import boats.Boat
 import boats.BoatFactory
 import boats.BoatInstaller
+import com.example.seafx.SeaController
 import fields.TechField
 import fields.TechField4Algorithm
+import javafx.scene.input.MouseEvent
 import kotlinx.coroutines.delay
 import kotlin.properties.Delegates
 import kotlin.random.Random
@@ -14,33 +17,58 @@ import kotlin.random.Random
 class GetCoord {
     companion object {
         var gotBoatHuman = false
-        var newCoord: Coordinate? by Delegates.observable(null) { _, _, new ->
+        var newCoordForInstall: Coordinate? by Delegates.observable(null) { _, _, new ->
             if (new?.letter != null && new.number != null) {
                 gotBoatHuman = true
+            }
+        }
+        var gotTurnHuman = false
+        var newCoordForTurn: Coordinate? by Delegates.observable(null) { _, _, new ->
+            if (new?.letter != null && new.number != null) {
+                gotTurnHuman = true
             }
         }
     }
 
     // Получение координаты коорабля от человека:
     suspend fun boatHuman(id: Int): Pair<Coordinate, Boolean> {
-        println("boatHuman")
-        var coord: Coordinate?
-        HumanBoatCoordGetter.boatTemp = Boat(id, Coordinate(1, 1), HumanBoatCoordGetter.isVertical)
+        val coord: Coordinate?
+        HumanCoordGetterController.boatTemp = Boat(id, Coordinate(1, 1), HumanCoordGetterController.isVertical)
 
         gotBoatHuman = false
         while (!gotBoatHuman) {
-            delay(50)
+            delay(10)
             println("getFlag = $gotBoatHuman")
         }
-        coord = Coordinate.copy(newCoord!!)
+        coord = Coordinate.copy(newCoordForInstall!!)
         gotBoatHuman = false
-        return coord to HumanBoatCoordGetter.isVertical
+        return coord to HumanCoordGetterController.isVertical
     }
 
     // Получение координаты хода от человека:
-    fun turnHuman(): Coordinate {
-        // return CSRTurn().read().first
-        TODO()
+    suspend fun turnHuman(): Coordinate {
+        for (button in RobotButton.buttonMap.values)
+            button.addEventFilter(
+                MouseEvent.MOUSE_CLICKED,
+                SeaController.humanCoordGetterController!!.handlerMouseClick4Turn
+            )
+
+        val coord: Coordinate?
+        gotTurnHuman = false
+        while (!gotTurnHuman) {
+            delay(10)
+            println("getFlag = $gotTurnHuman")
+        }
+        coord = Coordinate.copy(newCoordForTurn!!)
+        gotTurnHuman = false
+        println(coord)
+        for (button in RobotButton.buttonMap.values)
+            button.removeEventFilter(
+                MouseEvent.MOUSE_CLICKED,
+                SeaController.humanCoordGetterController!!.handlerMouseClick4Turn
+            )
+
+        return coord
     }
 
     // Генератор случайной координаты корабля:
@@ -68,7 +96,7 @@ class GetCoord {
             damagedBoat = techField.boatList.values.find { it.lives != 0 && it.lives < it.size }!!
             val damagedCoords = arrayListOf<Coordinate>()
             for (coord in damagedBoat.coordinates) // Находим сбитые клетки корабля
-                if (tF.fieldArray[coord?.number!!][coord.letter] == damagedBoat.id * (-1))
+                if (tF.fieldArray[coord.number][coord.letter] == damagedBoat.id * (-1))
                     damagedCoords.add(coord)
 
             // Ищем координаты в которых возможно нахождение остальной части корабля:

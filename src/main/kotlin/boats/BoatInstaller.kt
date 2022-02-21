@@ -1,10 +1,12 @@
 package boats
 
+import Cell.HumanButton
 import com.example.seafx.SeaController
 import coordinates.GetCoord
 import fields.TechField4Algorithm
 import javafx.fxml.FXML
 import javafx.scene.control.Label
+import javafx.scene.input.MouseEvent
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
@@ -66,7 +68,7 @@ class BoatInstaller(private val factory: BoatFactory, private val isHuman: Boole
         if (isHuman) {
             for (boat in techField.boatList) // Перебираем коллекцию кораблей из ТехПоля
                 for (coord in boat.value.coordinates) {
-                    SeaController.humanButtonMap.getValue(coord!!.id).style =
+                    SeaController.humanButtonMap.getValue(coord.id).style =
                         "-fx-padding: 0.0 3.0 0.0 0.0;" +
                                 "-fx-text-alignment: center;" +
                                 "-fx-border-color: darkblue;" +
@@ -80,16 +82,44 @@ class BoatInstaller(private val factory: BoatFactory, private val isHuman: Boole
 
                 }
         }
-
+        techField.boatsAndFramesCoordsList.addAll(boat.coordinates)
+        techField.boatsAndFramesCoordsList.addAll(boat.frame)
         return true to boat
     }
 
     // Принимает список id кораблей для установки:
     suspend fun installAllHuman(boatsIdToInstall: Collection<Int>, label: Label) { // Установка всех нужных кораблей:
+        for (button in HumanButton.buttonMap.values) {
+            button.addEventFilter(
+                MouseEvent.MOUSE_ENTERED_TARGET,
+                SeaController.humanCoordGetterController!!.handlerMouseEnter4Install
+            )
+            button.addEventFilter(
+                MouseEvent.MOUSE_EXITED_TARGET,
+                SeaController.humanCoordGetterController!!.handlerMouseExit4Install
+            )
+            button.addEventFilter(
+                MouseEvent.MOUSE_CLICKED,
+                SeaController.humanCoordGetterController!!.handlerMouseClick4Install
+            )
+        }
         for (id in boatsIdToInstall) {
             install(id, label)
         }
-        SeaController.humanBoatCoordGetter = null
+        for (button in HumanButton.buttonMap.values) {
+            button.removeEventFilter(
+                MouseEvent.MOUSE_ENTERED_TARGET,
+                SeaController.humanCoordGetterController!!.handlerMouseEnter4Install
+            )
+            button.removeEventFilter(
+                MouseEvent.MOUSE_EXITED_TARGET,
+                SeaController.humanCoordGetterController!!.handlerMouseExit4Install
+            )
+            button.removeEventFilter(
+                MouseEvent.MOUSE_CLICKED,
+                SeaController.humanCoordGetterController!!.handlerMouseClick4Install
+            )
+        }
 
         MainScope().launch {
             boatInstallLabel.text = "Готово!"

@@ -8,6 +8,7 @@ module com.example.seafx {
     requires org.kordamp.ikonli.javafx;
     requires kotlinx.coroutines.core.jvm;
 
+
     opens com.example.seafx to javafx.fxml;
     exports com.example.seafx;
     exports Cell;

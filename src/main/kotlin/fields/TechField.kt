@@ -1,8 +1,9 @@
 package fields
 
+import Cell.HumanButton
+import Cell.SeaButton
 import boats.Boat
 import coordinates.Coordinate
-import javafx.scene.control.Button
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -29,11 +30,11 @@ open class TechField {
    1
     */
 
-    // UI поле боя для выбивания кораблей соперником:
-    val uiTurns = UIFTurns(this)
-
     // Коллекция кораблей с доступом по ключу - ID корабля:
     open var boatList = mutableMapOf<Int, Boat>()
+
+    // Коллекция всех координат кораблей на поле
+    open var boatsAndFramesCoordsList = mutableListOf<Coordinate?>()
 
     // Счетчик не сбитых кораблей (для фиксации конца игры):
     var aliveBoatCounter = 0
@@ -49,21 +50,12 @@ open class TechField {
     // Тех поле 12 на 12 изначально заполенено кодом 1:
     var fieldArray = Array(12) { Array(12) { 1 } }
 
-    open var buttonMap = mapOf<Int, Button>()
+    open var buttonMap = mapOf<Int, SeaButton>()
     private val dC = 9760.toChar().toString()
 
     // 2 Верхняие строки техполя с номерами колонок и буквами (для печати техполя на время отладки)
     private val strIndex = arrayOf("_", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "_")
     private val strLetters = arrayOf("_", "_", "А", "Б", "В", "Г", "Д", "Е", "Ж", "З", "И", "К", "_", "_")
-
-    companion object {
-        var uiScene = arrayListOf<UIFTurns>()
-    }
-
-    init {
-        if (this !is TechField4Algorithm)
-            uiScene.add(uiTurns)
-    }
 
     // Очищение поля, чтобы можно было вибивать заново с чистого листа ту же расстоновку кораблей
     fun clearField() {
@@ -73,9 +65,7 @@ open class TechField {
         failList.clear() // Очищаем список "мимо"
         for (boat in boatList.values) // Восстанавливаем жизини всех кораблей
             boat.lives = boat.size
-        uiTurns.clear() // Очищаем интерфейс для выбивания кораблей
         update() // Обнавляем ТехПоле (переносим коды из коллекций в основной массив fieldArray
-        uiTurns.update()  // Обновляем интерфейс для установки кораблей (чтобы выводил чистое поле)
     }
 
     // Вывод техполя в консоль (для отладки):
@@ -103,32 +93,78 @@ open class TechField {
 //                    setMaxSize(29.0, 29.0)
 //                    setPrefSize(29.0, 29.0)
                     text = dC
-                    style = "-fx-padding: 0.0 3.0 0.0 0.0;" +
-                            "-fx-text-alignment: center;" +
-                            "-fx-border-color: black;" +
-                            "-fx-background-color: radial-gradient(focus-distance 0% , center 50% 50% , radius 50% , red, yellow);" +
-                            "-fx-background-radius: 12;" +
-                            "-fx-border-radius: 12;" +
-                            "-fx-border-width: 1px;" +
-                            "-fx-font-size: 1.7em;" +
-                            "-fx-pref-width: 29px;" +
-                            "-fx-pref-height: 29px;"
-//background = Background(Color.BLUE)
-
+                    style = when {
+                        buttonMap.getValue(coord.id) is HumanButton && this.coord == lastTurnCoord ->
+                            "-fx-padding: 0.0 3.0 0.0 0.0;" +
+                                    "-fx-text-alignment: center;" +
+                                    "-fx-border-color: red;" +
+                                    "-fx-background-color: radial-gradient(focus-distance 0% , center 50% 50% , radius 50% , red, yellow);" +
+                                    "-fx-background-radius: 12;" +
+                                    "-fx-border-radius: 12;" +
+                                    "-fx-border-width: 1px;" +
+                                    "-fx-font-size: 1.7em;" +
+                                    "-fx-pref-width: 29px;" +
+                                    "-fx-pref-height: 29px;"
+                        buttonMap.getValue(coord.id) is HumanButton && this.coord != lastTurnCoord ->
+                            "-fx-padding: 0.0 3.0 0.0 0.0;" +
+                                    "-fx-text-alignment: center;" +
+                                    "-fx-border-color: black;" +
+                                    "-fx-background-color: radial-gradient(focus-distance 0% , center 50% 50% , radius 50% , red, yellow);" +
+                                    "-fx-background-radius: 12;" +
+                                    "-fx-border-radius: 12;" +
+                                    "-fx-border-width: 1px;" +
+                                    "-fx-font-size: 1.7em;" +
+                                    "-fx-pref-width: 29px;" +
+                                    "-fx-pref-height: 29px;"
+                        buttonMap.getValue(coord.id) !is HumanButton && this.coord == lastTurnCoord ->
+                            "-fx-padding: 0.0 0.0 0.0 0.5;" +
+                                "-fx-text-alignment: center;" +
+                                "-fx-border-color: red;" +
+                                "-fx-background-color: radial-gradient(focus-distance 0% , center 50% 50% , radius 50% , red, yellow);" +
+                                "-fx-background-radius: 12;" +
+                                "-fx-border-radius: 12;" +
+                                "-fx-border-width: 1px;" +
+                                "-fx-font-size: 1.7em;" +
+                                "-fx-pref-width: 29px;" +
+                                "-fx-pref-height: 29px;"
+                        else -> "-fx-padding: 0.0 0.0 0.0 0.5;" +
+                                "-fx-text-alignment: center;" +
+                                "-fx-border-color: black;" +
+                                "-fx-background-color: radial-gradient(focus-distance 0% , center 50% 50% , radius 50% , red, yellow);" +
+                                "-fx-background-radius: 12;" +
+                                "-fx-border-radius: 12;" +
+                                "-fx-border-width: 1px;" +
+                                "-fx-font-size: 1.7em;" +
+                                "-fx-pref-width: 29px;" +
+                                "-fx-pref-height: 29px;"
+                    }
                 }
             }
             for (coord in failList) {
-                if(coord.number <= 10 && coord.number > 0 && coord.letter <= 10 && coord.letter > 0) {
+                if (coord.number in 1..10 && coord.letter in 1..10) {
                     with(buttonMap.getValue(coord.id)) {
 //                    setMaxSize(29.0, 29.0)
 //                    setPrefSize(29.0, 29.0)
-                        style = "-fx-border-color: white;" +
-                                "-fx-background-color: radial-gradient(focus-distance 0% , center 50% 50% , radius 10% , darkblue, white);" +
-                                "-fx-background-radius: 1;" +
-                                "-fx-border-radius: 1;" +
-                                "-fx-border-width: 1px;" +
-                                "-fx-pref-width: 9px;" +
-                                "-fx-pref-height: 9px;"
+                        style = when (this.coord) {
+                            lastTurnCoord -> "-fx-border-color: red;" +
+                                    "-fx-background-color: radial-gradient(focus-distance 0% , center 50% 50% , radius 10% , darkblue, white);" +
+                                    "-fx-background-radius: 1;" +
+                                    "-fx-border-radius: 3;" +
+                                    "-fx-border-width: 1px;" +
+                                    "-fx-pref-width: 9px;" +
+                                    "-fx-pref-height: 9px;" +
+                                    "-fx-pref-width: 29px;" +
+                                    "-fx-pref-height: 29px;"
+                            else -> "-fx-border-color: lightgray;" +
+                                    "-fx-background-color: radial-gradient(focus-distance 0% , center 50% 50% , radius 10% , darkblue, white);" +
+                                    "-fx-background-radius: 1;" +
+                                    "-fx-border-radius: 3;" +
+                                    "-fx-border-width: 1px;" +
+                                    "-fx-pref-width: 9px;" +
+                                    "-fx-pref-height: 9px;" +
+                                    "-fx-pref-width: 29px;" +
+                                    "-fx-pref-height: 29px;"
+                        }
                     }
                 }
             }
@@ -139,11 +175,11 @@ open class TechField {
     fun update() {
         for (boat in boatList) {
             for (coord in boat.value.coordinates) // Клетки, где корабли
-                fieldArray[coord!!.number][coord.letter] = boat.value.id
+                fieldArray[coord.number][coord.letter] = boat.value.id
         }
         for (boat in boatList) {
             for (coord in boat.value.frame) // Клетки, где рамки вокруг кораблей
-                fieldArray[coord!!.number][coord.letter] = boat.value.id * 10
+                fieldArray[coord.number][coord.letter] = boat.value.id * 10
         }
         for (coord in scoredList) { // Клетки, со сбитыми кораблями
             if (fieldArray[coord.number][coord.letter] < 0)

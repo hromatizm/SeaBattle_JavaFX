@@ -9,7 +9,7 @@ class MyApplication : Application() {
 
     override fun start(stage: Stage) {
         val fxmlLoader = FXMLLoader(MyApplication::class.java.getResource("sea.fxml"))
-        val scene = Scene(fxmlLoader.load(), 750.0, 500.0)
+        val scene = Scene(fxmlLoader.load(), 750.0, 450.0)
         stage.title = "Морской бой"
         stage.scene = scene
         stage.show()
